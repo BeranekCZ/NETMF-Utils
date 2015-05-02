@@ -1,7 +1,7 @@
 using System;
 using Microsoft.SPOT;
 
-namespace BeranekCZ.NETMF
+namespace BeranekCZ.NETMF.Displays
 {
     public static class Glcfont
     {
