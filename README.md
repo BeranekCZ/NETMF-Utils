@@ -1,7 +1,14 @@
 # NETMF-Utils
-Library for .net micro framework. Contains I2C address scanner, class for control OLED display with SSD1306 driver. More will be added... 
+Library for .net micro framework devices. 
 
-Video URL: https://youtu.be/ZWVSWinAFTU
+##Contains 
+
+- I2C address scanner
+- Class for control OLED display with SSD1306 driver. 
+- Class for character LCD display with HD44780 driver. Controled by I2C I/O expander (PCF8574).
+- More will be added... 
+
+OLED display video URL: https://youtu.be/ZWVSWinAFTU
 
 # Info
 
