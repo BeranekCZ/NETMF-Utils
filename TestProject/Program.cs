@@ -5,6 +5,9 @@ using BeranekCZ.NETMF.Displays;
 using Microsoft.SPOT.Hardware;
 using System.Threading;
 using BeranekCZ.NETMF.Expanders;
+using BeranekCZ.NETMF.Wireless;
+using System.IO.Ports;
+using System.Text;
 
 
 namespace TestProject
@@ -12,28 +15,37 @@ namespace TestProject
     public class Program
     {
 
-   
+        static BtModuleHC05 bt;
         static byte val; 
         public static void Main()
         {
             //I2CScanner.ScanAddresses(50, 80);
-
-
-            InterruptPort btn = new InterruptPort(GHI.Pins.Generic.GetPin('B', 8), true, Port.ResistorMode.PullUp,Port.InterruptMode.InterruptEdgeLow);
-            btn.OnInterrupt += btn_OnInterrupt;
             //testSSD1306_128x64();
-            test1602();
-            
+            //test1602();
+            testBT();
+            Thread.Sleep(Timeout.Infinite);      
 
 
         }
 
-        static void btn_OnInterrupt(uint data1, uint data2, DateTime time)
+        private static void testBT()
         {
-            Debug.Print("posun");
-            val = (byte)(val << 1);
-            reg.SetPins(val);
+
+            //bt = new BtModuleLC07(new SerialPort("COM1",38400,Parity.None,8,StopBits.One));
+           
+            bt = new BtModuleHC05(new SerialPort("COM1", 9600, Parity.None, 8, StopBits.One),true,4);
+            bt.Open(true);
+            bt.NewDataReceived += bt_NewDataReceived;
+
+            
         }
+
+        static void bt_NewDataReceived(object sender, byte[] data)
+        {
+            BtModuleHC05.PrintDataToConsole(data);
+        }
+
+
 
         private static void test1602()
         {

@@ -35,9 +35,11 @@
     <Compile Include="I2CScanner.cs" />
     <Compile Include="Displays\SSD1306.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Wireless\BtModuleHC05.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.SPOT.Hardware" />
+    <Reference Include="Microsoft.SPOT.Hardware.SerialPort" />
     <Reference Include="Microsoft.SPOT.Native" />
   </ItemGroup>
   <Import Condition="EXISTS('$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets')" Project="$(NetMfTargetsBaseDir)$(TargetFrameworkVersion)\CSharp.Targets" />
