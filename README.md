@@ -7,6 +7,8 @@ Library for .net micro framework devices.
 - Class for control OLED display with SSD1306 driver. 
 - Class for character LCD display with HD44780 driver. Controled by I2C I/O expander (PCF8574).
 - Class for HC-05 bluetooth module (basic AT commands, R/W data, recv. data event, packet mode)
+- Class for ESP8266 wifi module (tested on  espressif firmware version  00200.9.4)
+-- beta, problem with receiving data larger than 1024B
 - More will be added... 
 
 OLED display video URL: https://youtu.be/ZWVSWinAFTU
