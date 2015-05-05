@@ -51,7 +51,7 @@ namespace TestProject
             //ByteUtils.PrintDataToConsole(wifi.GetSSIDList());
 
             //ByteUtils.PrintDataToConsole(wifi.GetConnectedNetworkName());
-            ByteUtils.PrintDataToConsole(wifi.ConnectToNetwork("berankov2G", "debilniheslo"));
+            ByteUtils.PrintDataToConsole(wifi.ConnectToNetwork("", ""));
             ByteUtils.PrintDataToConsole(wifi.GetConnectedNetworkName());
 
             //ByteUtils.PrintDataToConsole(wifi.DisconnectFromNetwork());
