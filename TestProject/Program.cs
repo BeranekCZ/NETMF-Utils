@@ -1,6 +1,5 @@
 using System;
 using Microsoft.SPOT;
-using BeranekCZ.NETMF.Utils;
 using BeranekCZ.NETMF.Displays;
 using Microsoft.SPOT.Hardware;
 using System.Threading;
@@ -8,6 +7,7 @@ using BeranekCZ.NETMF.Expanders;
 using BeranekCZ.NETMF.Wireless;
 using System.IO.Ports;
 using System.Text;
+using BeranekCZ.NETMF;
 
 
 namespace TestProject
@@ -16,16 +16,97 @@ namespace TestProject
     {
 
         static BtModuleHC05 bt;
+        static Esp8266Wifi wifi;
         static byte val; 
         public static void Main()
         {
             //I2CScanner.ScanAddresses(50, 80);
             //testSSD1306_128x64();
             //test1602();
-            testBT();
+            //testBT();
+            testWifi();
             Thread.Sleep(Timeout.Infinite);      
 
 
+        }
+
+        private static void testWifi()
+        {
+            //wifi = new Esp8266Wifi(new SerialPort("COM1", 9600, Parity.None, 8, StopBits.One));
+            wifi = new Esp8266Wifi(new SerialPort("COM1", 115200, Parity.None, 8, StopBits.One));
+
+            wifi.Open(true);
+            wifi.NewDataReceived += wifi_NewDataReceived;
+            wifi.ConnectDisconnectClient += wifi_ConnectDisconnectClient;
+            wifi.ServerDataReceived += wifi_ServerDataReceived;
+
+            //ByteUtils.PrintDataToConsole(wifi.PingModule());
+            //ByteUtils.PrintDataToConsole(wifi.GetVersion());
+
+            //ByteUtils.PrintDataToConsole(wifi.GetWorkingMode());
+            ByteUtils.PrintDataToConsole(wifi.SetWorkingMode(Esp8266Wifi.WORKING_MODE.Sta));
+            ByteUtils.PrintDataToConsole(wifi.SetMUX(Esp8266Wifi.MUX_MODE.multipleConnection));
+            //wifi.Close();
+            //wifi.Open(true);
+            //ByteUtils.PrintDataToConsole(wifi.GetSSIDList());
+
+            //ByteUtils.PrintDataToConsole(wifi.GetConnectedNetworkName());
+            ByteUtils.PrintDataToConsole(wifi.ConnectToNetwork("berankov2G", "debilniheslo"));
+            ByteUtils.PrintDataToConsole(wifi.GetConnectedNetworkName());
+
+            //ByteUtils.PrintDataToConsole(wifi.DisconnectFromNetwork());
+            //ByteUtils.PrintDataToConsole(wifi.GetConnectedNetworkName());
+
+            //ByteUtils.PrintDataToConsole(wifi.GetSoftAPConf());
+            //ByteUtils.PrintDataToConsole(wifi.SetSoftAPConf("TempWifi","temptemp",5,Esp8266Wifi.ENCRYPTION.wpa2_psk));
+            //ByteUtils.PrintDataToConsole(wifi.GetSoftAPConf());
+            //ByteUtils.PrintDataToConsole(wifi.SetDHCP(Esp8266Wifi.WORKING_MODE.Both, true));
+            //Thread.Sleep(60000);//time to connect,1 minute
+            //ByteUtils.PrintDataToConsole(wifi.GetClientsIP());
+
+            //ByteUtils.PrintDataToConsole(wifi.GetStationMacAddress());
+            //ByteUtils.PrintDataToConsole(wifi.GetSoftAPMacAddress());
+
+            //ByteUtils.PrintDataToConsole(wifi.GetStationIPAddress());
+            //ByteUtils.PrintDataToConsole(wifi.GetSoftAPIPAddress());
+
+            //ByteUtils.PrintDataToConsole(wifi.GetConnectionInfo());
+            ByteUtils.PrintDataToConsole(wifi.GetLocalIPAddress());
+
+            ByteUtils.PrintDataToConsole(wifi.SetTransferMode(Esp8266Wifi.TRANSFER_MODE.normal));
+            
+            //ByteUtils.PrintDataToConsole(wifi.EstablishConnection("TCP","192.168.0.102","3000"));
+            //ByteUtils.PrintDataToConsole(wifi.SendData(Encoding.UTF8.GetBytes("AHOJ\r\n")));
+
+            //ByteUtils.PrintDataToConsole(wifi.SendBigData(Encoding.UTF8.GetBytes("1234567890")));
+            ByteUtils.PrintDataToConsole(wifi.GetConnectionInfo());
+
+            ByteUtils.PrintDataToConsole(wifi.StartServer(333));
+
+            //ByteUtils.PrintDataToConsole(wifi.GetConnectionInfo());
+
+            
+
+        }
+
+        static void wifi_ServerDataReceived(object sender, byte[] data, int clientId, int size)
+        {
+            Debug.Print("Client ID = "+clientId);
+            Debug.Print("size = " + size);
+            Debug.Print("real size = " + data.Length);
+            ByteUtils.PrintDataToConsole(data);
+            Esp8266Wifi wifi = sender as Esp8266Wifi;
+            if (wifi != null) wifi.SendData(Encoding.UTF8.GetBytes("Thanks for your data"), clientId);
+        }
+
+        static void wifi_ConnectDisconnectClient(object sender, byte[] data)
+        {
+            ByteUtils.PrintDataToConsole(data);
+        }
+
+        static void wifi_NewDataReceived(object sender, byte[] data)
+        {
+            ByteUtils.PrintDataToConsole(data);
         }
 
         private static void testBT()
@@ -42,7 +123,7 @@ namespace TestProject
 
         static void bt_NewDataReceived(object sender, byte[] data)
         {
-            BtModuleHC05.PrintDataToConsole(data);
+            ByteUtils.PrintDataToConsole(data);
         }
 
 

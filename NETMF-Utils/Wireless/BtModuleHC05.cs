@@ -189,12 +189,6 @@ namespace BeranekCZ.NETMF.Wireless
             return ATCommand("AT+ADDR");
         }
 
-        public static void PrintDataToConsole(byte[] data)
-        {
-            char[] chars = System.Text.Encoding.UTF8.GetChars(data);
-            Debug.Print(new String(chars));
-        }
-
         void _module_ErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
             Debug.Print(e.ToString());
@@ -214,18 +208,18 @@ namespace BeranekCZ.NETMF.Wireless
                 byte[] dataOut = new byte[count];
                 _module.Read(dataOut, 0, count);
                 if (_receivedData == null) _receivedData = dataOut;
-                else _receivedData = appendArray(_receivedData, dataOut);
+                else _receivedData = ByteUtils.AppendArrays(_receivedData, dataOut);
 
                 if (_receivedData.Length >= _packetSize)
                 {
                     int numberOfPackets = _receivedData.Length / _packetSize;
                     for (int i = 0; i < numberOfPackets; i++)
-                    {       
-                        byte[] ret = copyArrays(_receivedData, i * _packetSize, i * _packetSize + _packetSize - 1);
+                    {
+                        byte[] ret = ByteUtils.CopyArrays(_receivedData, i * _packetSize, i * _packetSize + _packetSize - 1);
                         NewDataReceived(this, ret);
                     }
 
-                    _receivedData = copyArrays(_receivedData, numberOfPackets * _packetSize, _receivedData.Length - 1);
+                    _receivedData = ByteUtils.CopyArrays(_receivedData, numberOfPackets * _packetSize, _receivedData.Length - 1);
                 }
                 //NewDataReceived(this, dataOut);
             }
@@ -238,31 +232,6 @@ namespace BeranekCZ.NETMF.Wireless
 
             }
 
-        }
-
-        /// <summary>
-        /// Append arr2 to arr1
-        /// </summary>
-        /// <param name="arr1"></param>
-        /// <param name="arr2"></param>
-        /// <returns></returns>
-        private byte[] appendArray(byte[] arr1, byte[] arr2)
-        {
-            byte[] ret = new byte[arr1.Length + arr2.Length];
-            arr1.CopyTo(ret, 0);
-            arr2.CopyTo(ret, arr1.Length);
-            return ret;
-        }
-
-        private byte[] copyArrays(byte[] from, int start, int stop)
-        {
-            if (start >= from.Length) return null;
-            byte[] arr = new byte[stop - start + 1];
-            for (int i = 0; i <= stop-start; i++)
-            {
-                arr[i] = from[start + i];
-            }
-            return arr;
         }
 
         public void ClearPacket()
