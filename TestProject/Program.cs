@@ -8,6 +8,8 @@ using BeranekCZ.NETMF.Wireless;
 using System.IO.Ports;
 using System.Text;
 using BeranekCZ.NETMF;
+using BeranekCZ.NETMF.Utils;
+using BeranekCZ.NETMF.Sensors;
 
 
 namespace TestProject
@@ -17,6 +19,8 @@ namespace TestProject
 
         static BtModuleHC05 bt;
         static Esp8266Wifi wifi;
+        static Bmp180 sensor;
+
         static byte val; 
         public static void Main()
         {
@@ -24,10 +28,26 @@ namespace TestProject
             //testSSD1306_128x64();
             //test1602();
             //testBT();
-            testWifi();
+            //testWifi();
+            testBmp180();
             Thread.Sleep(Timeout.Infinite);      
 
 
+        }
+
+        private static void testBmp180()
+        {
+            //I2CScanner.ScanAddresses(1, 140);
+            I2CDevice.Configuration conf = new I2CDevice.Configuration(119, 400);
+            sensor = new Bmp180(new I2CDevice(conf));
+            Debug.Print(sensor.ReadCalibrationData().ToString());
+            
+            Debug.Print(sensor.GetRawTemperature().ToString());
+            Debug.Print(sensor.GetTemperature()*0.1+"°C" );
+            long pressure = sensor.GetPressure(Bmp180.PresureAccurancyMode.Standard);
+            Debug.Print(pressure / 100 + "hPa");
+
+            Debug.Print(sensor.GetAltitude(pressure) + "m");       
         }
 
         private static void testWifi()
