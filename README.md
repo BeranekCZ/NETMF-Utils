@@ -10,6 +10,7 @@ Library for .net micro framework devices.
 - Class for ESP8266 wifi module 
   - beta, problem with receiving data larger than 1024B
   - only TCP tested
+- Class for digital pressure sensors BMP180
 - More will be added... 
 
 OLED display video URL: https://youtu.be/ZWVSWinAFTU
@@ -37,4 +38,7 @@ https://www.adafruit.com/datasheets/SSD1306.pdf
 
 ESP8266 AT commands: 
 https://github.com/espressif/esp8266_at/wiki/AT_Description
+
+BMP180 datasheet: 
+http://www.adafruit.com/datasheets/BST-BMP180-DS000-09.pdf
 
