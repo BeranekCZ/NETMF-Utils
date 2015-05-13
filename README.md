@@ -11,6 +11,7 @@ Library for .net micro framework devices.
   - beta, problem with receiving data larger than 1024B
   - only TCP tested
 - Class for digital pressure sensors BMP180
+- Class for GPS module NEO-6M
 - More will be added... 
 
 OLED display video URL: https://youtu.be/ZWVSWinAFTU
@@ -25,6 +26,7 @@ Class can be configured with  binary masks if your I/O expander has pins connect
 
 ### ESP8266 wifi module
 Works with espressif firmware version  00200.9.4. Another firmwares not tested. Problem with receiving data larger than 1024B. Only TCP tested.  TODO: Maybe better timeouts for AT commands. 
+
 
 
 # Sources
