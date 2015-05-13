@@ -80,10 +80,10 @@ namespace BeranekCZ.NETMF.Sensors
         /// Blocking.
         /// </summary>
         /// <param name="sentenceId">Example: GLL, GGA, RSA, RMC, GSV, VTG </param>
-        public void GetSentence(string sentenceId)
-        {
-            writeCommand(makeSentence("EIGPQ," + sentenceId));
-        }
+        //public void GetSentence(string sentenceId)
+        //{
+        //    writeCommand(makeSentence("EIGPQ," + sentenceId));
+        //}
 
 
 
