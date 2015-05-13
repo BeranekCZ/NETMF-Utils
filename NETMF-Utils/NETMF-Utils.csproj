@@ -37,6 +37,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ByteUtils.cs" />
     <Compile Include="Sensors\Bmp180.cs" />
+    <Compile Include="Sensors\GpsData\GgaData.cs" />
+    <Compile Include="Sensors\GpsData\GpsCoordinate.cs" />
+    <Compile Include="Sensors\GpsData\GsaData.cs" />
+    <Compile Include="Sensors\GpsData\GsvData.cs" />
+    <Compile Include="Sensors\GpsData\GpsMainData.cs" />
+    <Compile Include="Sensors\GpsData\RmcData.cs" />
+    <Compile Include="Sensors\GpsData\SateliteInfo.cs" />
+    <Compile Include="Sensors\GpsNeo6M.cs" />
     <Compile Include="Wireless\BtModuleHC05.cs" />
     <Compile Include="Wireless\Esp8266Wifi.cs" />
   </ItemGroup>

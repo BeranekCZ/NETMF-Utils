@@ -20,6 +20,7 @@ namespace TestProject
         static BtModuleHC05 bt;
         static Esp8266Wifi wifi;
         static Bmp180 sensor;
+        static GpsNeo6M gps;
 
         static byte val; 
         public static void Main()
@@ -29,10 +30,29 @@ namespace TestProject
             //test1602();
             //testBT();
             //testWifi();
-            testBmp180();
+            //testBmp180();
+            testGPS();
+
             Thread.Sleep(Timeout.Infinite);      
 
 
+        }
+
+        private static void testGPS()
+        {
+            gps = new GpsNeo6M(new SerialPort("COM1",9600,Parity.None,8,StopBits.One),true);
+            gps.NewGpsMainData += gps_NewGpsMainDataHandler;
+            //gps.GetUbxPosition(new TimeSpan(0,0,0,5));
+            //gps.ReguestUbxPosition();
+            gps.RequestSentence("RMC");
+
+            
+        }
+
+        static void gps_NewGpsMainDataHandler(object sender, BeranekCZ.NETMF.Sensors.GpsData.GpsMainData data)
+        {
+            Debug.Print(data.Latitude.ToString());
+            Debug.Print(data.Longtitude.ToString());
         }
 
         private static void testBmp180()

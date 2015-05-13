@@ -70,6 +70,8 @@ namespace BeranekCZ.NETMF
             return text.IndexOf(str) != -1;
         }
 
+        
+
         public static byte[] CopyNotNull(byte[] array)
         {
             int count=0;
