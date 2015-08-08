@@ -13,8 +13,11 @@ namespace BeranekCZ.NETMF.Sensors
         tc_p_luhr ultra high res. mode 17 25.5 ms
         tc_p_ar Advanced res. mode 51 76.5 ms
         Conversion time
-        temperature tC_temp standard mode 3 4.5 ms        UP = pressure data (16 to 19 bit)
-        UT = temperature data (16 bit)     *  I2C up to 3.4Mbit/sec    */
+        temperature tC_temp standard mode 3 4.5 ms
+        UP = pressure data (16 to 19 bit)
+        UT = temperature data (16 bit)
+     *  I2C up to 3.4Mbit/sec
+    */
     /// <summary>
     /// digital barometric pressure sensor
     /// Call ReadCalibrationData before getting temp and press. !
@@ -22,6 +25,7 @@ namespace BeranekCZ.NETMF.Sensors
     public class Bmp180
     {
         private I2CDevice _device;
+        private I2CDevice.Configuration _config;
         private int _timeout = 200;
 
         public enum PresureAccurancyMode { UltraLowPower, Standard, HighResolution, UltraHighResolution }
@@ -46,15 +50,16 @@ namespace BeranekCZ.NETMF.Sensors
         /// Call ReadCalibrationData before getting temp and press. !
         /// </summary>
         /// <param name="device"></param>
-        public Bmp180(I2CDevice device)
+        public Bmp180(I2CDevice device,I2CDevice.Configuration configuration)
         {
             _device = device;
-
+            _config = configuration;
 
         }
 
         private void write(byte data)
         {
+            this._device.Config = _config;
             this._device.Execute(
                 new I2CDevice.I2CTransaction[] { I2CDevice.CreateWriteTransaction(new byte[] { data }) },
                 _timeout
@@ -64,6 +69,7 @@ namespace BeranekCZ.NETMF.Sensors
 
         private void write(byte[] data)
         {
+            this._device.Config = _config;
             this._device.Execute(
                 new I2CDevice.I2CTransaction[] { I2CDevice.CreateWriteTransaction(data) },
                 _timeout
@@ -131,6 +137,7 @@ namespace BeranekCZ.NETMF.Sensors
         /// <returns>Return null if numberOfReadedBytes != numberOfbytes</returns>
         private byte[] read(int numberOfbytes)
         {
+            this._device.Config = _config;
             byte[] ret = new byte[numberOfbytes];
             int numberOfReadedBytes = this._device.Execute(
                 new I2CDevice.I2CTransaction[] { I2CDevice.CreateReadTransaction(ret) },
@@ -142,6 +149,7 @@ namespace BeranekCZ.NETMF.Sensors
 
         private byte readByte()
         {
+            this._device.Config = _config;
             byte[] ret = new byte[1];
             this._device.Execute(
                 new I2CDevice.I2CTransaction[] { I2CDevice.CreateReadTransaction(ret) },

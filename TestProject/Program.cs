@@ -25,17 +25,86 @@ namespace TestProject
         static byte val; 
         public static void Main()
         {
+            Debug.EnableGCMessages(true);
+            
             //I2CScanner.ScanAddresses(50, 80);
             //testSSD1306_128x64();
             //test1602();
             //testBT();
             //testWifi();
             //testBmp180();
-            testGPS();
+            //testGPS();
+            testILI();
 
             Thread.Sleep(Timeout.Infinite);      
 
 
+        }
+
+        private static void testILI()
+        {
+            
+            SPI spi = new SPI(new SPI.Configuration(
+            GHI.Pins.Generic.GetPin('C', 0), // SS-pin
+            false,             // SS-pin active state
+            0,                 // The setup time for the SS port
+            0,                 // The hold time for the SS port
+            false,              // The idle state of the clock
+            true,             // The sampling clock edge
+            40000,              // The SPI clock rate in KHz
+            SPI.SPI_module.SPI1)
+            );   // The used SPI bus (refers to a MOSI MISO and SCLK pinset)
+            ILI9341 ili = new ILI9341(spi, GHI.Pins.Generic.GetPin('C', 1), GHI.Pins.Generic.GetPin('C', 2));
+            //Thread.Sleep(150);
+            ili.Init();
+
+            SPI.Configuration touchConfig =  new SPI.Configuration(
+            GHI.Pins.Generic.GetPin('A', 0), // SS-pin
+            false,             // SS-pin active state
+            0,                 // The setup time for the SS port
+            0,                 // The hold time for the SS port
+            false,              // The idle state of the clock
+            true,             // The sampling clock edge
+            40000,              // The SPI clock rate in KHz
+            SPI.SPI_module.SPI1);
+
+            ili.SetTouchConfig(touchConfig, GHI.Pins.Generic.GetPin('A', 1));
+
+            //TouchControllerXpt2046 touch = new TouchControllerXpt2046(touchConfig, GHI.Pins.Generic.GetPin('A', 1));
+            //lock ("aaa")
+            //{
+            //    ili.FillScreen(0,0,ili.Width - 1, ili.Height - 1, ILI9341.ColorFromRgb(0,255,0));
+            //}
+            
+            //Debug.Print(Debug.GC(true).ToString());
+            //Painter.DrawRectangle(ili, 9, 9, 202, 202, ILI9341.ColorFromRgb(0, 0, 255));
+
+            //Painter.DrawRoundFilledRect(ili, 10, 10, 200, 200, 30, ILI9341.ColorFromRgb(255,0,0));
+
+            //Painter.DrawTriangle(ili, 60, 10, 90, 150, 30, 150, ILI9341.ColorFromRgb(255, 0, 255));
+
+            //Thread.Sleep(5000);
+            //ili.InversionMode(true);
+            //Thread.Sleep(5000);
+            //ili.InversionMode(false);
+
+            
+
+            //CanvasBuffer cb = new CanvasBuffer(120, 120, ILI9341.ColorFromRgb(0, 0, 255));
+            //Painter.DrawFilledCircle(cb, 59, 59, 60, ILI9341.ColorFromRgb(255, 0, 0));
+            //ili.DrawBuffer(0, 0, cb);
+            //Painter.DrawText(ili, 70, 70, "Tak tady je text".ToCharArray(), ILI9341.ColorFromRgb(255, 0, 0), 3);
+            //Thread.Sleep(10000);
+            //Painter.DrawRectangle(ili, 10, 10, 200, 200, ILI9341.ColorFromRgb(255,0,0));
+            //Painter.DrawLine(ili, 0, 0, ili.Width, ili.Height, ILI9341.ColorFromRgb(255, 0, 0));
+            //Painter.DrawFilledCircle(ili, 159, 119, 119, ILI9341.ColorFromRgb(255, 0, 0));
+            /*
+            for (int i = 100; i < 120; i++)
+            {
+                ili.DrawPixel(i, i, ILI9341.ColorFromRgb(0,255,0));
+                
+            }*/
+            
         }
 
         private static void testGPS()
@@ -45,6 +114,7 @@ namespace TestProject
             //gps.GetUbxPosition(new TimeSpan(0,0,0,5));
             //gps.ReguestUbxPosition();
             gps.RequestSentence("RMC");
+
 
             
         }
@@ -208,78 +278,78 @@ namespace TestProject
             oled.Init();
 
             //two circles
-            oled.DrawCircle(31, 31, 30);
-            oled.DrawFilledCircle(97, 31, 30);
+            //oled.DrawCircle(31, 31, 30);
+            //oled.DrawFilledCircle(97, 31, 30);
 
-            oled.Display();
-            Thread.Sleep(5000);
-            oled.Clear();
+            //oled.Display();
+            //Thread.Sleep(5000);
+            //oled.Clear();
 
-            //archery target
-            oled.DrawFilledCircle(63, 31, 30);
-            oled.DrawCircle(63, 31, 25, false);
-            oled.DrawCircle(63, 31, 20, false);
-            oled.DrawCircle(63, 31, 15, false);
-            oled.DrawCircle(63, 31, 10, false);
-            oled.DrawCircle(63, 31, 5, false);
+            ////archery target
+            //oled.DrawFilledCircle(63, 31, 30);
+            //oled.DrawCircle(63, 31, 25, false);
+            //oled.DrawCircle(63, 31, 20, false);
+            //oled.DrawCircle(63, 31, 15, false);
+            //oled.DrawCircle(63, 31, 10, false);
+            //oled.DrawCircle(63, 31, 5, false);
 
-            oled.Display();
-            Thread.Sleep(5000);
-            oled.Clear();
+            //oled.Display();
+            //Thread.Sleep(5000);
+            //oled.Clear();
 
-            //invert 
-            oled.SetInverseDisplay(true);
-            Thread.Sleep(5000);
-            oled.SetInverseDisplay(false);
+            ////invert 
+            //oled.SetInverseDisplay(true);
+            //Thread.Sleep(5000);
+            //oled.SetInverseDisplay(false);
 
-            //rectangles 
-            oled.DrawRectangle(5, 20, 40, 40);
-            oled.DrawFilledRectangle(50, 20, 50, 40);
+            ////rectangles 
+            //oled.DrawRectangle(5, 20, 40, 40);
+            //oled.DrawFilledRectangle(50, 20, 50, 40);
 
-            oled.Display();
-            Thread.Sleep(5000);
-            oled.Clear();
+            //oled.Display();
+            //Thread.Sleep(5000);
+            //oled.Clear();
 
-            //rounded rect
-            oled.DrawRoundRect(5, 20, 40, 40, 10);
-            oled.DrawRoundFilledRect(50, 20, 50, 40, 10);
+            ////rounded rect
+            //oled.DrawRoundRect(5, 20, 40, 40, 10);
+            //oled.DrawRoundFilledRect(50, 20, 50, 40, 10);
 
-            oled.Display();
-            Thread.Sleep(5000);
-            oled.Clear();
+            //oled.Display();
+            //Thread.Sleep(5000);
+            //oled.Clear();
 
-            oled.StartScrollHorizontally(true, 0, 0xff);
-            Thread.Sleep(5000);
+            //oled.StartScrollHorizontally(true, 0, 0xff);
+            //Thread.Sleep(5000);
 
-            oled.StartScrollHorizontally(false, 0, 0xff);
-            Thread.Sleep(5000);
-            oled.StartScrollVerticallyHorizontally(true, 0, 0xff, 0x02);
-            Thread.Sleep(5000);
-            oled.StartScrollVerticallyHorizontally(true, 0, 0xff, 0x0A);
-            Thread.Sleep(5000);
-            oled.DeactivateScroll();
+            //oled.StartScrollHorizontally(false, 0, 0xff);
+            //Thread.Sleep(5000);
+            //oled.StartScrollVerticallyHorizontally(true, 0, 0xff, 0x02);
+            //Thread.Sleep(5000);
+            //oled.StartScrollVerticallyHorizontally(true, 0, 0xff, 0x0A);
+            //Thread.Sleep(5000);
+            //oled.DeactivateScroll();
 
-            oled.Clear();
-
-
-            //triangle + lines
-            oled.DrawLine(10, 10, oled.Width - 10, oled.Height - 10);
-            oled.DrawTriangle(5, 20, 5, 60, 63, 60);
-
-            oled.Display();
-            Thread.Sleep(5000);
-            oled.Clear();
+            //oled.Clear();
 
 
-            //text
-            oled.DrawText(0, 0, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(), 1);
+            ////triangle + lines
+            //oled.DrawLine(10, 10, oled.Width - 10, oled.Height - 10);
+            //oled.DrawTriangle(5, 20, 5, 60, 63, 60);
 
-            oled.Display();
-            Thread.Sleep(5000);
-            oled.Clear();
+            //oled.Display();
+            //Thread.Sleep(5000);
+            //oled.Clear();
 
-            //text
-            oled.DrawText(0, 0, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(), 2);
+
+            ////text
+            //oled.DrawText(0, 0, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(), 1);
+
+            //oled.Display();
+            //Thread.Sleep(5000);
+            //oled.Clear();
+
+            ////text
+            //oled.DrawText(0, 0, "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray(), 2);
 
             oled.Display();
             Thread.Sleep(5000);

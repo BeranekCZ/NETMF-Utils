@@ -35,9 +35,9 @@ namespace BeranekCZ.NETMF.Displays
             get { return _height; }
         }
 
-        public LcdCharacter_I2C(I2CDevice device,int numberOfLines, int numberOfCharInLine)
+        public LcdCharacter_I2C(I2CDevice device,I2CDevice.Configuration configuration,int numberOfLines, int numberOfCharInLine)
         {
-            _expander = new PCF8574(device);
+            _expander = new PCF8574(device,configuration);
             _width = numberOfCharInLine;
             _height = numberOfLines;
         }
