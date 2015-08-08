@@ -6,12 +6,14 @@ Library for .net micro framework devices.
 - I2C address scanner
 - Class for control OLED display with SSD1306 driver. 
 - Class for character LCD display with HD44780 driver. Controled by I2C I/O expander (PCF8574).
+- Class for TFT display driver ILI9341 
 - Class for HC-05 bluetooth module (basic AT commands, R/W data, recv. data event, packet mode)
 - Class for ESP8266 wifi module 
   - beta, problem with receiving data larger than 1024B
   - only TCP tested
 - Class for digital pressure sensors BMP180
 - Class for GPS module NEO-6M
+
 - More will be added... 
 
 OLED display video URL: https://youtu.be/ZWVSWinAFTU
